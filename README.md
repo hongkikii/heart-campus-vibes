@@ -1,73 +1,108 @@
-# Welcome to your Lovable project
+# 💡 프로젝트 개요
 
-## Project info
+**컨셉**: 처음 누군가와 친해지기 위한 용기를 대신 내주는 대학생 전용 SNS 애플리케이션
 
-**URL**: https://lovable.dev/projects/0a47c52a-2778-403e-af6a-1842442467e1
+---
 
-## How can I edit this code?
+## 1. 🎯 사용자 구체화
 
-There are several ways of editing your application.
+| 항목 | 내용 |
+| --- | --- |
+| **주 사용층** | 18~24세 대학생 |
+| **주요 목적** | 누군가에게 호감을 표현하거나, 따뜻한 말과 마음을 주고받기 위함 |
+| **행동 특성** | 표현은 하고 싶지만 용기가 부족함, 따뜻한 말과 마음을 주고받는 것을 좋아함 |
+| **기술 사용력** | SNS와 모바일 앱 사용에 익숙 |
+| **중요 가치** | 익명성 + 설렘, 실명 기반 신뢰, 주변 사람과의 연결, 사이버불링 없는 공간 |
 
-**Use Lovable**
+> 🔍 요약: “누군가와 자연스럽게 친해지고 싶고, 따뜻한 말과 마음을 주고받고 싶은 대학생들”
+> 
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0a47c52a-2778-403e-af6a-1842442467e1) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 2. 👤 페르소나 정의
 
-**Use your preferred IDE**
+### 🎓 페르소나 1: 김하늘 (20세, 여대생, 경영학과 2학년)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- 관심사: 연애, SNS 감성, 동아리
+- 성격: 밝고 외향적이지만 마음 표현은 조심스러움
+- 니즈: 익명으로 시작하고, 연결되면 용기를 내고 싶음
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🎓 페르소나 2: 이준서 (23세, 남학생, 컴공 4학년)
 
-Follow these steps:
+- 관심사: 친구들과 노는 것, 캠퍼스 활동
+- 성격: 유쾌하고 장난기 많음
+- 니즈: 재미있게 사람들과 어울리고, 부담 없이 관심 표현하고 싶음
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 3. 🎬 사용자 시나리오
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 💌 시나리오 1: 하늘이의 실명 하트
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+1. 하늘이는 앱에서 관심 있는 선배를 본다
+2. **실명 하트**를 보낸다 → 선배에게 “김하늘이 하트를 보냈습니다”라는 알림
+3. 즉시 **채팅방이 24시간 열림**
 
-**Edit a file directly in GitHub**
+### 😶 시나리오 2: 하늘이의 익명 하트
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. 하늘이는 다른 선배에게 **익명 하트**를 보낸다
+2. 선배는 “익명 하트를 받았습니다” 알림만 확인
+3. 며칠 뒤, 선배도 하늘이에게 **익명 하트**를 누르면 → **서로 공개 + 채팅방 개설**
 
-**Use GitHub Codespaces**
+### ✨ 시나리오 3: 준서의 칭찬 투표
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. 준서는 주변 사람 목록을 보고, “이 강의실의 패피는?” 항목에서 친구를 선택해 투표함
+2. 상대는 “누군가가 당신을 패피로 지목했어요!”라는 **익명 칭찬 알림** 수신
+3. 받은 투표 내역은 마이페이지에서 확인 가능
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 4. 📌 요구사항 도출
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### ✅ 기능 요구사항
 
-## How can I deploy this project?
+### 💗 하트 기능
 
-Simply open [Lovable](https://lovable.dev/projects/0a47c52a-2778-403e-af6a-1842442467e1) and click on Share -> Publish.
+- 위치 기반 사용자 리스트로 30명 표시
+- **하트 전송 (실명 / 익명)** 선택 가능
+    - 실명 하트: 한쪽만 눌러도 채팅방 생성 (24시간 유지)
+    - 익명 하트: 양쪽 모두 눌러야 채팅방 생성
+- 하트는 한 사람에게 **하루 1회**만 보낼 수 있음
 
-## Can I connect a custom domain to my Lovable project?
+### 📊 칭찬 투표 기능
 
-Yes, you can!
+- 위치 기반 사용자 리스트로 **투표 대상 선택 가능**
+- 투표 항목은 미리 정의된 **칭찬 문구**로만 구성
+    - 예: "혹시 3대 500?", "선배님 밥 사주세요!", "이 강의실의 패피는 너야!"
+- 투표는 **익명으로 수신**되며, 알림 제공
+- 받은 투표 내역 확인 가능 (내 프로필)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### 🙅‍♀️ 악성 행위 방지
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- 사이버불링 방지를 위한 신고/차단 기능
+- 학부 및 실명 인증을 통해 **신뢰 기반 사용자 구성**
+
+---
+
+## 5. 🧩 사용자 스토리 & 인수 조건
+
+### 🎯 Epic 1: 하트를 보내고 채팅으로 연결되기
+
+| 사용자 스토리 | 인수 조건 |
+| --- | --- |
+| “나는 관심 있는 사람에게 하트를 보내고 싶다, 그래서 연결되면 대화를 시작하고 싶다.” | - 사용자는 하루 1회 하트를 보낼 수 있다.<br> - 실명 하트는 즉시 채팅방 생성 (24시간)<br> - 익명 하트는 상대가 응답 시 채팅방 생성 |
+
+### 🎯 Epic 2: 주변 사람을 칭찬하고 싶다
+
+| 사용자 스토리 | 인수 조건 |
+| --- | --- |
+| “나는 주변 사람을 칭찬하는 투표를 하고 싶다, 그래서 주변 사람에게 칭찬을 하고 싶다.” | - 사용자는 주변 사용자 목록을 보고 투표 가능<br> - 투표 항목은 사전 정의된 칭찬 문구<br> - 투표는 익명이며, 알림이 발송됨<br> - 받은 투표는 프로필에서 확인 가능 |
+
+---
+
+## 🌈 핵심 가치 요약
+
+- ❣️ **"익명 + 실명 하트"를 통해 다양한 방식의 표현 가능**
+- 🗣️ **칭찬 기반 투표로 긍정적 문화 형성**
+- 🔒 **실명 + 학부 인증, 신고 기능으로 안전한 환경 제공**
+- 📍 **주변 사람을 중심으로 한 자연스러운 연결**
