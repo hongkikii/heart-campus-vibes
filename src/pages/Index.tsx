@@ -5,6 +5,14 @@ import { ChatList } from '@/components/ChatList';
 import { ProfilePage } from '@/components/ProfilePage';
 import { useToast } from '@/hooks/use-toast';
 
+// Import Korean profile images
+import profileGirl1 from '@/assets/profile-girl-1.jpg';
+import profileBoy1 from '@/assets/profile-boy-1.jpg';
+import profileGirl2 from '@/assets/profile-girl-2.jpg';
+import profileBoy2 from '@/assets/profile-boy-2.jpg';
+import profileGirl3 from '@/assets/profile-girl-3.jpg';
+import profileBoy3 from '@/assets/profile-boy-3.jpg';
+
 interface User {
   id: string;
   name: string;
@@ -22,7 +30,7 @@ const mockUsers: User[] = [
     department: '컴퓨터공학과',
     year: 4,
     distance: '50m',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    avatar: profileBoy1,
     isOnline: true
   },
   {
@@ -31,7 +39,7 @@ const mockUsers: User[] = [
     department: '경영학과',
     year: 3,
     distance: '120m',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+    avatar: profileGirl2,
     isOnline: false
   },
   {
@@ -40,7 +48,7 @@ const mockUsers: User[] = [
     department: '디자인학과',
     year: 2,
     distance: '200m',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    avatar: profileBoy2,
     isOnline: true
   },
   {
@@ -49,7 +57,7 @@ const mockUsers: User[] = [
     department: '심리학과',
     year: 1,
     distance: '350m',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b5c4?w=150&h=150&fit=crop&crop=face',
+    avatar: profileGirl3,
     isOnline: false
   },
   {
@@ -58,7 +66,7 @@ const mockUsers: User[] = [
     department: '체육학과',
     year: 3,
     distance: '450m',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+    avatar: profileBoy3,
     isOnline: true
   }
 ];
@@ -73,14 +81,14 @@ const Index = () => {
       if (type === 'real') {
         toast({
           title: "💗 실명 하트 전송 완료!",
-          description: `${user.name}님에게 하트를 보냈습니다. 채팅방이 24시간 동안 열렸어요!`,
-          duration: 3000
+          description: `✨ ${user.name}님에게 하트를 보냈습니다. 채팅방이 24시간 동안 열렸어요!`,
+          duration: 4000
         });
       } else {
         toast({
-          title: "😶 익명 하트 전송 완료!",
-          description: `${user.name}님에게 익명 하트를 보냈습니다. 상대도 보내면 서로 공개돼요!`,
-          duration: 3000
+          title: "🤫 익명 하트 전송 완료!",
+          description: `🎯 ${user.name}님에게 익명 하트를 보냈습니다. 상대도 보내면 서로 공개돼요!`,
+          duration: 4000
         });
       }
     }
@@ -91,8 +99,8 @@ const Index = () => {
     if (user) {
       toast({
         title: "🎯 칭찬 전송 완료!",
-        description: `${user.name}님에게 "${compliment}" 칭찬을 보냈습니다!`,
-        duration: 3000
+        description: `💌 ${user.name}님에게 "${compliment}" 칭찬을 보냈습니다!`,
+        duration: 4000
       });
     }
   };
@@ -103,8 +111,12 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div className="text-center py-8">
-              <h1 className="text-3xl font-bold text-gradient mb-2">주변 사람들</h1>
-              <p className="text-muted-foreground">가까운 거리에 있는 친구들에게 하트와 칭찬을 보내보세요!</p>
+              <div className="flex items-center justify-center space-x-2 mb-4">
+                <span className="text-4xl animate-float">💗</span>
+                <h1 className="text-3xl font-bold text-gradient">주변 사람들</h1>
+                <span className="text-4xl animate-float" style={{ animationDelay: '0.5s' }}>✨</span>
+              </div>
+              <p className="text-muted-foreground">🎯 가까운 거리에 있는 친구들에게 하트와 칭찬을 보내보세요!</p>
             </div>
             
             <div className="space-y-4">

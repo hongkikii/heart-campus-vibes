@@ -3,29 +3,33 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
+// Import Korean profile image
+import profileGirl1 from '@/assets/profile-girl-1.jpg';
+
 interface Compliment {
   id: string;
   text: string;
   count: number;
   recentDate: string;
+  emoji: string;
 }
 
 const mockProfile = {
   name: '김하늘',
   department: '경영학과',
   year: 2,
-  avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b5c4?w=200&h=200&fit=crop&crop=face',
+  avatar: profileGirl1,
   heartsReceived: 12,
   heartsSent: 8,
   complimentsReceived: 15
 };
 
 const mockCompliments: Compliment[] = [
-  { id: '1', text: '이 강의실의 패피는 너야!', count: 5, recentDate: '어제' },
-  { id: '2', text: '스타일이 완전 취저!', count: 3, recentDate: '2일 전' },
-  { id: '3', text: '완전 친화력 갑!', count: 4, recentDate: '3일 전' },
-  { id: '4', text: '센스가 정말 좋으시네요', count: 2, recentDate: '5일 전' },
-  { id: '5', text: '선배님 밥 사주세요!', count: 1, recentDate: '1주일 전' },
+  { id: '1', text: '이 강의실의 패피는 너야!', count: 5, recentDate: '어제', emoji: '👑' },
+  { id: '2', text: '스타일이 완전 취저!', count: 3, recentDate: '2일 전', emoji: '🔥' },
+  { id: '3', text: '완전 친화력 갑!', count: 4, recentDate: '3일 전', emoji: '🌟' },
+  { id: '4', text: '센스가 정말 좋으시네요', count: 2, recentDate: '5일 전', emoji: '✨' },
+  { id: '5', text: '선배님 밥 사주세요!', count: 1, recentDate: '1주일 전', emoji: '🍚' },
 ];
 
 export function ProfilePage() {
@@ -47,16 +51,19 @@ export function ProfilePage() {
             <h1 className="text-2xl font-bold text-gradient mb-2">{mockProfile.name}</h1>
             <p className="text-muted-foreground mb-4">{mockProfile.department}</p>
             
-            <div className="flex space-x-4">
+            <div className="flex space-x-6 justify-center">
               <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-1">💗</div>
                 <div className="text-2xl font-bold text-primary">{mockProfile.heartsReceived}</div>
                 <div className="text-xs text-muted-foreground">받은 하트</div>
               </div>
               <div className="text-center">
+                <div className="text-3xl font-bold text-secondary mb-1">💌</div>
                 <div className="text-2xl font-bold text-secondary">{mockProfile.heartsSent}</div>
                 <div className="text-xs text-muted-foreground">보낸 하트</div>
               </div>
               <div className="text-center">
+                <div className="text-3xl font-bold text-accent mb-1">🎯</div>
                 <div className="text-2xl font-bold text-accent">{mockProfile.complimentsReceived}</div>
                 <div className="text-xs text-muted-foreground">받은 칭찬</div>
               </div>
@@ -67,7 +74,10 @@ export function ProfilePage() {
 
       {/* Settings */}
       <Card className="glass-card p-4">
-        <h3 className="font-semibold mb-4 text-gradient">설정</h3>
+        <div className="flex items-center space-x-2 mb-4">
+          <span className="text-xl">⚙️</span>
+          <h3 className="font-semibold text-gradient">설정</h3>
+        </div>
         <div className="space-y-2">
           <Button variant="ghost" className="w-full justify-start">
             🔔 알림 설정
@@ -87,9 +97,12 @@ export function ProfilePage() {
       {/* Received Compliments */}
       <Card className="glass-card p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gradient">받은 칭찬</h3>
+          <div className="flex items-center space-x-2">
+            <span className="text-xl">🎯</span>
+            <h3 className="font-semibold text-gradient">받은 칭찬</h3>
+          </div>
           <Badge variant="secondary" className="bg-gradient-warm text-secondary-foreground">
-            총 {mockCompliments.reduce((sum, c) => sum + c.count, 0)}개
+            ✨ 총 {mockCompliments.reduce((sum, c) => sum + c.count, 0)}개
           </Badge>
         </div>
         
@@ -101,13 +114,16 @@ export function ProfilePage() {
         ) : (
           <div className="space-y-3">
             {mockCompliments.map((compliment) => (
-              <div key={compliment.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors duration-300">
-                <div className="flex-1">
-                  <p className="font-medium">{compliment.text}</p>
-                  <p className="text-xs text-muted-foreground">{compliment.recentDate}</p>
+              <div key={compliment.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors duration-300 border-l-4 border-primary/30">
+                <div className="flex items-center space-x-3 flex-1">
+                  <span className="text-2xl flex-shrink-0">{compliment.emoji}</span>
+                  <div className="flex-1">
+                    <p className="font-medium">{compliment.text}</p>
+                    <p className="text-xs text-muted-foreground">📅 {compliment.recentDate}</p>
+                  </div>
                 </div>
                 <Badge variant="outline" className="bg-primary/10 border-primary/30 text-primary">
-                  {compliment.count}명
+                  ✨ {compliment.count}명
                 </Badge>
               </div>
             ))}

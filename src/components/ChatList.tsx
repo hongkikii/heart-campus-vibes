@@ -2,6 +2,11 @@ import { Card } from '@/components/ui/card';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
+// Import Korean profile images
+import profileGirl1 from '@/assets/profile-girl-1.jpg';
+import profileBoy1 from '@/assets/profile-boy-1.jpg';
+import profileGirl2 from '@/assets/profile-girl-2.jpg';
+
 interface Chat {
   id: string;
   userName: string;
@@ -17,7 +22,7 @@ const mockChats: Chat[] = [
   {
     id: '1',
     userName: '김하늘',
-    userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b5c4?w=150&h=150&fit=crop&crop=face',
+    userAvatar: profileGirl1,
     lastMessage: '안녕하세요! 하트 보내주셔서 감사해요 ☺️',
     timestamp: '2분 전',
     unreadCount: 2,
@@ -27,7 +32,7 @@ const mockChats: Chat[] = [
   {
     id: '2',
     userName: '이준서',
-    userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    userAvatar: profileBoy1,
     lastMessage: '오늘 같이 점심 먹을래요?',
     timestamp: '1시간 전',
     unreadCount: 0
@@ -35,7 +40,7 @@ const mockChats: Chat[] = [
   {
     id: '3',
     userName: '박지민',
-    userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+    userAvatar: profileGirl2,
     lastMessage: '과제 같이 하실래요?',
     timestamp: '3시간 전',
     unreadCount: 1
@@ -46,9 +51,12 @@ export function ChatList() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gradient">채팅</h2>
+        <div className="flex items-center space-x-2">
+          <span className="text-2xl">💬</span>
+          <h2 className="text-2xl font-bold text-gradient">채팅</h2>
+        </div>
         <Badge variant="secondary" className="bg-gradient-warm text-secondary-foreground">
-          {mockChats.filter(chat => chat.unreadCount > 0).length}개의 새 메시지
+          ✨ {mockChats.filter(chat => chat.unreadCount > 0).length}개의 새 메시지
         </Badge>
       </div>
 
@@ -82,7 +90,7 @@ export function ChatList() {
                   <p className="text-sm text-muted-foreground truncate">{chat.lastMessage}</p>
                   {chat.isExpiring && (
                     <div className="flex items-center mt-2">
-                      <Badge variant="outline" className="text-xs border-destructive/50 text-destructive">
+                      <Badge variant="outline" className="text-xs border-destructive/50 text-destructive bg-destructive/5">
                         ⏰ {chat.timeLeft} 후 만료
                       </Badge>
                     </div>
