@@ -3,6 +3,8 @@ import { UserCard } from '@/components/UserCard';
 import { BottomNavigation } from '@/components/BottomNavigation';
 import { ChatList } from '@/components/ChatList';
 import { ProfilePage } from '@/components/ProfilePage';
+import { ChatCreatedPopup } from '@/components/ChatCreatedPopup';
+import { VoteReceivedPopup } from '@/components/VoteReceivedPopup';
 import { useToast } from '@/hooks/use-toast';
 
 // Import Korean profile images
@@ -73,22 +75,68 @@ const mockUsers: User[] = [
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [chatCreatedPopup, setChatCreatedPopup] = useState<{
+    isOpen: boolean;
+    userName: string;
+    userAvatar: string;
+    isRealNameHeart: boolean;
+  }>({
+    isOpen: false,
+    userName: '',
+    userAvatar: '',
+    isRealNameHeart: false
+  });
+  const [voteReceivedPopup, setVoteReceivedPopup] = useState<{
+    isOpen: boolean;
+    votes: Array<{
+      compliment: string;
+      count: number;
+      emoji: string;
+    }>;
+  }>({
+    isOpen: false,
+    votes: []
+  });
   const { toast } = useToast();
 
   const handleHeartSent = (userId: string, type: 'anonymous' | 'real') => {
     const user = mockUsers.find(u => u.id === userId);
     if (user) {
       if (type === 'real') {
+        // 실명 하트는 즉시 채팅방 생성
+        setTimeout(() => {
+          setChatCreatedPopup({
+            isOpen: true,
+            userName: user.name,
+            userAvatar: user.avatar,
+            isRealNameHeart: true
+          });
+        }, 1000);
+        
         toast({
           title: "💗 실명 하트 전송 완료!",
-          description: `✨ ${user.name}님에게 하트를 보냈습니다. 채팅방이 24시간 동안 열렸어요!`,
-          duration: 4000
+          description: `✨ ${user.name}님에게 하트를 보냈습니다!`,
+          duration: 3000
         });
       } else {
+        // 익명 하트는 랜덤하게 매칭 시뮬레이션
+        const isMatched = Math.random() > 0.7; // 30% 확률로 매칭
+        
+        if (isMatched) {
+          setTimeout(() => {
+            setChatCreatedPopup({
+              isOpen: true,
+              userName: user.name,
+              userAvatar: user.avatar,
+              isRealNameHeart: false
+            });
+          }, 2000);
+        }
+        
         toast({
           title: "🤫 익명 하트 전송 완료!",
-          description: `🎯 ${user.name}님에게 익명 하트를 보냈습니다. 상대도 보내면 서로 공개돼요!`,
-          duration: 4000
+          description: `🎯 ${user.name}님에게 익명 하트를 보냈습니다!`,
+          duration: 3000
         });
       }
     }
@@ -97,10 +145,26 @@ const Index = () => {
   const handleVote = (userId: string, compliment: string) => {
     const user = mockUsers.find(u => u.id === userId);
     if (user) {
+      // 랜덤하게 투표 받은 알림 시뮬레이션
+      const shouldShowVotePopup = Math.random() > 0.6; // 40% 확률
+      
+      if (shouldShowVotePopup) {
+        setTimeout(() => {
+          setVoteReceivedPopup({
+            isOpen: true,
+            votes: [
+              { compliment: "이 강의실의 패피는 너야! 👑", count: 3, emoji: "👑" },
+              { compliment: "혹시 3대 500? 💪", count: 2, emoji: "💪" },
+              { compliment: "선배님 밥 사주세요! 🍚", count: 1, emoji: "🍚" }
+            ]
+          });
+        }, 1500);
+      }
+      
       toast({
         title: "🎯 칭찬 전송 완료!",
         description: `💌 ${user.name}님에게 "${compliment}" 칭찬을 보냈습니다!`,
-        duration: 4000
+        duration: 3000
       });
     }
   };
@@ -168,6 +232,21 @@ const Index = () => {
 
       {/* Bottom Navigation */}
       <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+
+      {/* Popups */}
+      <ChatCreatedPopup
+        isOpen={chatCreatedPopup.isOpen}
+        onOpenChange={(open) => setChatCreatedPopup(prev => ({ ...prev, isOpen: open }))}
+        userName={chatCreatedPopup.userName}
+        userAvatar={chatCreatedPopup.userAvatar}
+        isRealNameHeart={chatCreatedPopup.isRealNameHeart}
+      />
+
+      <VoteReceivedPopup
+        isOpen={voteReceivedPopup.isOpen}
+        onOpenChange={(open) => setVoteReceivedPopup(prev => ({ ...prev, isOpen: open }))}
+        votes={voteReceivedPopup.votes}
+      />
     </div>
   );
 };
