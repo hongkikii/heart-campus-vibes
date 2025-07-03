@@ -2,7 +2,7 @@
 #### "연결의 시작은 작은 표현으로부터"  
 
 캠퍼스 커뮤니케이션 플랫폼  
-URL: [https://link-us-2.lovable.app/](https://link-us-2.lovable.app/)
+URL: https://link-us-v2.lovable.app/
 
 ---
 
