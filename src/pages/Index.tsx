@@ -99,53 +99,46 @@ const Index = () => {
   });
   const { toast } = useToast();
 
-  const handleHeartSent = (userId: string, type: 'anonymous' | 'real') => {
+  const handleMessageSent = (userId: string, message: string) => {
     const user = mockUsers.find(u => u.id === userId);
     if (user) {
-      if (type === 'real') {
-        // 실명 하트는 즉시 채팅방 생성
+      toast({
+        title: "📩 쪽지 전송 완료!",
+        description: `💌 ${user.name}님에게 "${message}" 쪽지를 보냈습니다!`,
+        duration: 3000
+      });
+    }
+  };
+
+  const handleSeedSent = (userId: string) => {
+    const user = mockUsers.find(u => u.id === userId);
+    if (user) {
+      // 씨앗 매칭 시뮬레이션 (30% 확률)
+      const isMatched = Math.random() > 0.7;
+      
+      if (isMatched) {
         setTimeout(() => {
           setChatCreatedPopup({
             isOpen: true,
             userName: user.name,
             userAvatar: user.avatar,
-            isRealNameHeart: true
+            isRealNameHeart: false
           });
-        }, 1000);
-        
-        toast({
-          title: "💗 실명 하트 전송 완료!",
-          description: `✨ ${user.name}님에게 하트를 보냈습니다!`,
-          duration: 3000
-        });
-      } else {
-        // 익명 하트는 랜덤하게 매칭 시뮬레이션
-        const isMatched = Math.random() > 0.7; // 30% 확률로 매칭
-        
-        if (isMatched) {
-          setTimeout(() => {
-            setChatCreatedPopup({
-              isOpen: true,
-              userName: user.name,
-              userAvatar: user.avatar,
-              isRealNameHeart: false
-            });
-          }, 2000);
-        }
-        
-        toast({
-          title: "🤫 익명 하트 전송 완료!",
-          description: `🎯 ${user.name}님에게 익명 하트를 보냈습니다!`,
-          duration: 3000
-        });
+        }, 2000);
       }
+      
+      toast({
+        title: "🌱 씨앗 전송 완료!",
+        description: `🤫 ${user.name}님에게 익명으로 씨앗을 보냈습니다!`,
+        duration: 3000
+      });
     }
   };
 
-  const handleVote = (userId: string, compliment: string) => {
+  const handleComplimentSent = (userId: string, compliment: string) => {
     const user = mockUsers.find(u => u.id === userId);
     if (user) {
-      // 랜덤하게 투표 받은 알림 시뮬레이션
+      // 랜덤하게 칭찬 받은 알림 시뮬레이션
       const shouldShowVotePopup = Math.random() > 0.6; // 40% 확률
       
       if (shouldShowVotePopup) {
@@ -153,9 +146,9 @@ const Index = () => {
           setVoteReceivedPopup({
             isOpen: true,
             votes: [
-              { compliment: "이 강의실의 패피는 너야! 👑", count: 3, emoji: "👑" },
+              { compliment: "이 강의실의 패피는 너야! 👚", count: 3, emoji: "👚" },
               { compliment: "혹시 3대 500? 💪", count: 2, emoji: "💪" },
-              { compliment: "선배님 밥 사주세요! 🍚", count: 1, emoji: "🍚" }
+              { compliment: "페이커 뺨 칠 거 같음 🎮", count: 1, emoji: "🎮" }
             ]
           });
         }, 1500);
@@ -176,11 +169,11 @@ const Index = () => {
           <div className="space-y-6">
             <div className="text-center py-8">
               <div className="flex items-center justify-center space-x-2 mb-4">
-                <span className="text-4xl animate-float">💗</span>
-                <h1 className="text-3xl font-bold text-gradient">주변 사람들</h1>
+                <span className="text-4xl animate-float">🎓</span>
+                <h1 className="text-3xl font-bold text-gradient">주변 학우들</h1>
                 <span className="text-4xl animate-float" style={{ animationDelay: '0.5s' }}>✨</span>
               </div>
-              <p className="text-muted-foreground">🎯 가까운 거리에 있는 친구들에게 하트와 칭찬을 보내보세요!</p>
+              <p className="text-muted-foreground">📩 쪽지, 🌱 씨앗, 🎯 칭찬으로 캠퍼스 친구들과 소통해보세요!</p>
             </div>
             
             <div className="space-y-4">
@@ -188,8 +181,9 @@ const Index = () => {
                 <UserCard 
                   key={user.id}
                   user={user}
-                  onHeartSent={handleHeartSent}
-                  onVote={handleVote}
+                  onMessageSent={handleMessageSent}
+                  onSeedSent={handleSeedSent}
+                  onComplimentSent={handleComplimentSent}
                 />
               ))}
             </div>
@@ -214,8 +208,8 @@ const Index = () => {
         <div className="max-w-lg mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="text-2xl animate-float">💗</div>
-              <h1 className="text-xl font-bold text-gradient">Campus Heart</h1>
+              <div className="text-2xl animate-float">🎓</div>
+              <h1 className="text-xl font-bold text-gradient">Camnect</h1>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-secondary rounded-full animate-glow"></div>

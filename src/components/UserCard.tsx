@@ -25,36 +25,49 @@ interface User {
 
 interface UserCardProps {
   user: User;
-  onHeartSent: (userId: string, type: 'anonymous' | 'real') => void;
-  onVote: (userId: string, compliment: string) => void;
+  onMessageSent: (userId: string, message: string) => void;
+  onSeedSent: (userId: string) => void;
+  onComplimentSent: (userId: string, compliment: string) => void;
 }
 
 const compliments = [
-  { text: "혹시 3대 500?", emoji: "💪", color: "bg-red-100 border-red-300 text-red-700" },
-  { text: "선배님 밥 사주세요!", emoji: "🍚", color: "bg-orange-100 border-orange-300 text-orange-700" },
-  { text: "이 강의실의 패피는 너야!", emoji: "👑", color: "bg-yellow-100 border-yellow-300 text-yellow-700" },
-  { text: "완전 친화력 갑!", emoji: "🌟", color: "bg-green-100 border-green-300 text-green-700" },
-  { text: "센스가 정말 좋으시네요", emoji: "✨", color: "bg-blue-100 border-blue-300 text-blue-700" },
-  { text: "스타일이 완전 취저!", emoji: "🔥", color: "bg-purple-100 border-purple-300 text-purple-700" }
+  { text: "혹시 3대 500?", emoji: "💪" },
+  { text: "이 강의실의 패피는 너야", emoji: "👚" },
+  { text: "페이커 뺨 칠 거 같음", emoji: "🎮" },
+  { text: "과탑일 거 같아요", emoji: "💯" },
+  { text: "완전 친화력 갑!", emoji: "🌟" },
+  { text: "센스가 정말 좋으시네요", emoji: "✨" }
 ];
 
-export function UserCard({ user, onHeartSent, onVote }: UserCardProps) {
-  const [showHeartModal, setShowHeartModal] = useState(false);
-  const [showVoteModal, setShowVoteModal] = useState(false);
-  const [heartSent, setHeartSent] = useState(false);
+export function UserCard({ user, onMessageSent, onSeedSent, onComplimentSent }: UserCardProps) {
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [showSeedModal, setShowSeedModal] = useState(false);
+  const [showComplimentModal, setShowComplimentModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const [actionSent, setActionSent] = useState('');
 
-  const handleHeartSend = (type: 'anonymous' | 'real') => {
-    onHeartSent(user.id, type);
-    setHeartSent(true);
-    setShowHeartModal(false);
-    
-    // Reset after animation
-    setTimeout(() => setHeartSent(false), 600);
+  const handleMessageSend = () => {
+    if (message.trim() && message.length <= 30) {
+      onMessageSent(user.id, message);
+      setActionSent('message');
+      setShowMessageModal(false);
+      setMessage('');
+      setTimeout(() => setActionSent(''), 600);
+    }
   };
 
-  const handleVote = (compliment: string) => {
-    onVote(user.id, compliment);
-    setShowVoteModal(false);
+  const handleSeedSend = () => {
+    onSeedSent(user.id);
+    setActionSent('seed');
+    setShowSeedModal(false);
+    setTimeout(() => setActionSent(''), 600);
+  };
+
+  const handleComplimentSend = (compliment: string) => {
+    onComplimentSent(user.id, compliment);
+    setActionSent('compliment');
+    setShowComplimentModal(false);
+    setTimeout(() => setActionSent(''), 600);
   };
 
   return (
@@ -78,74 +91,119 @@ export function UserCard({ user, onHeartSent, onVote }: UserCardProps) {
         </div>
 
         <div className="flex flex-col space-y-2">
-          <Dialog open={showHeartModal} onOpenChange={setShowHeartModal}>
+          {/* 쪽지 보내기 */}
+          <Dialog open={showMessageModal} onOpenChange={setShowMessageModal}>
             <DialogTrigger asChild>
               <Button 
                 size="sm" 
-                className={`heart-button bg-gradient-primary hover:bg-gradient-primary/90 ${heartSent ? 'animate-heartbeat' : ''}`}
+                className={`bg-gradient-primary hover:bg-gradient-primary/90 ${actionSent === 'message' ? 'animate-pulse' : ''}`}
               >
-                💗
+                📩
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-gradient">하트 보내기</DialogTitle>
+                <DialogTitle className="text-gradient">📩 쪽지 보내기</DialogTitle>
               </DialogHeader>
               <div className="flex flex-col space-y-4 p-4">
                 <div className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 relative">
-                    <Avatar className="w-full h-full border-4 border-primary/30">
+                  <div className="w-16 h-16 mx-auto mb-3 relative">
+                    <Avatar className="w-full h-full border-2 border-primary/30">
                       <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                     </Avatar>
                   </div>
-                  <h3 className="font-semibold text-lg">{user.name}</h3>
-                  <p className="text-muted-foreground">{user.department} {user.year}학년</p>
+                  <h3 className="font-semibold text-lg">{user.name}님에게</h3>
+                  <p className="text-muted-foreground text-sm">💌 하루 5개까지 보낼 수 있어요</p>
                 </div>
                 
                 <div className="space-y-3">
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="30자 이하로 메시지를 입력하세요..."
+                    className="w-full p-3 border rounded-lg resize-none h-20 text-sm"
+                    maxLength={30}
+                  />
+                  <div className="text-right text-xs text-muted-foreground">
+                    {message.length}/30
+                  </div>
                   <Button 
-                    onClick={() => handleHeartSend('real')}
-                    className="w-full bg-gradient-primary hover:bg-gradient-primary/90 transition-all duration-300 relative overflow-hidden group"
+                    onClick={handleMessageSend}
+                    className="w-full bg-gradient-primary hover:bg-gradient-primary/90"
+                    disabled={!message.trim() || message.length > 30}
                   >
-                    <div className="flex items-center justify-center space-x-2">
-                      <span className="text-lg">💗</span>
-                      <span className="font-semibold">실명 하트 보내기</span>
-                    </div>
-                    <span className="block text-xs opacity-80 mt-1">✨ 즉시 채팅방이 열려요!</span>
-                    <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                  </Button>
-                  
-                  <Button 
-                    onClick={() => handleHeartSend('anonymous')}
-                    variant="outline"
-                    className="w-full border-primary/30 hover:bg-primary/5 transition-all duration-300 relative overflow-hidden group"
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <span className="text-lg">🤫</span>
-                      <span className="font-semibold">익명 하트 보내기</span>
-                    </div>
-                    <span className="block text-xs opacity-80 mt-1">🎯 상대도 보내면 서로 공개돼요!</span>
-                    <div className="absolute inset-0 bg-primary/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                    📤 쪽지 보내기
                   </Button>
                 </div>
               </div>
             </DialogContent>
           </Dialog>
 
-          <Dialog open={showVoteModal} onOpenChange={setShowVoteModal}>
+          {/* 씨앗 보내기 */}
+          <Dialog open={showSeedModal} onOpenChange={setShowSeedModal}>
             <DialogTrigger asChild>
-              <Button size="sm" variant="outline" className="border-secondary/50 hover:bg-secondary/10">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className={`border-secondary/50 hover:bg-secondary/10 ${actionSent === 'seed' ? 'animate-pulse' : ''}`}
+              >
+                🌱
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-gradient">🌱 씨앗 보내기</DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col space-y-4 p-4">
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-3 relative">
+                    <Avatar className="w-full h-full border-2 border-secondary/30">
+                      <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    </Avatar>
+                    <div className="absolute -top-1 -right-1 text-xl animate-bounce">🌱</div>
+                  </div>
+                  <h3 className="font-semibold text-lg">{user.name}님에게</h3>
+                  <p className="text-muted-foreground text-sm">🤫 익명으로 관심을 표현해보세요</p>
+                </div>
+                
+                <div className="bg-secondary/10 rounded-lg p-4 text-center">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    💡 씨앗을 보내면 상대방은 누가 보냈는지 모릅니다
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    🎯 서로 씨앗을 보내면 채팅방이 열려요!
+                  </p>
+                </div>
+                
+                <Button 
+                  onClick={handleSeedSend}
+                  className="w-full bg-gradient-secondary hover:bg-gradient-secondary/90"
+                >
+                  🌱 익명 씨앗 보내기
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* 칭찬하기 */}
+          <Dialog open={showComplimentModal} onOpenChange={setShowComplimentModal}>
+            <DialogTrigger asChild>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className={`border-accent/50 hover:bg-accent/10 ${actionSent === 'compliment' ? 'animate-pulse' : ''}`}
+              >
                 🎯
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-gradient">칭찬하기</DialogTitle>
+                <DialogTitle className="text-gradient">🎯 칭찬하기</DialogTitle>
               </DialogHeader>
               <div className="p-4">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto mb-3 relative">
-                    <Avatar className="w-full h-full border-2 border-secondary/30">
+                    <Avatar className="w-full h-full border-2 border-accent/30">
                       <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                     </Avatar>
                     <div className="absolute -top-1 -right-1 text-xl animate-bounce">🎯</div>
@@ -158,10 +216,9 @@ export function UserCard({ user, onHeartSent, onVote }: UserCardProps) {
                   {compliments.map((compliment, index) => (
                     <Button
                       key={index}
-                      onClick={() => handleVote(compliment.text)}
+                      onClick={() => handleComplimentSend(compliment.text)}
                       variant="outline"
-                      className="text-left justify-start hover:bg-accent/50 transition-all duration-300 p-4 h-auto relative overflow-hidden group border-l-4"
-                      style={{ borderLeftColor: `hsl(var(--primary))` }}
+                      className="text-left justify-start hover:bg-accent/50 transition-all duration-300 p-4 h-auto relative overflow-hidden group border-l-4 border-accent/30"
                     >
                       <div className="flex items-start space-x-3 w-full">
                         <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
@@ -171,7 +228,7 @@ export function UserCard({ user, onHeartSent, onVote }: UserCardProps) {
                           <p className="font-medium text-base leading-tight">{compliment.text}</p>
                         </div>
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-primary/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                     </Button>
                   ))}
                 </div>

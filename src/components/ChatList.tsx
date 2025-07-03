@@ -52,8 +52,8 @@ export function ChatList() {
     <div className="space-y-3">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl">💬</span>
-          <h2 className="text-2xl font-bold text-gradient">채팅</h2>
+          <span className="text-2xl">📩</span>
+          <h2 className="text-2xl font-bold text-gradient">쪽지함</h2>
         </div>
         <Badge variant="secondary" className="bg-gradient-warm text-secondary-foreground">
           ✨ {mockChats.filter(chat => chat.unreadCount > 0).length}개의 새 메시지
@@ -62,9 +62,9 @@ export function ChatList() {
 
       {mockChats.length === 0 ? (
         <Card className="glass-card p-8 text-center">
-          <div className="text-6xl mb-4 animate-float">💬</div>
-          <h3 className="text-lg font-semibold mb-2">아직 채팅이 없어요</h3>
-          <p className="text-muted-foreground">하트를 보내서 새로운 인연을 만들어보세요!</p>
+          <div className="text-6xl mb-4 animate-float">📩</div>
+          <h3 className="text-lg font-semibold mb-2">아직 쪽지가 없어요</h3>
+          <p className="text-muted-foreground">씨앗이나 쪽지를 보내서 새로운 친구를 만들어보세요!</p>
         </Card>
       ) : (
         <div className="space-y-2">

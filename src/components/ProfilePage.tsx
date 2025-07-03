@@ -19,17 +19,17 @@ const mockProfile = {
   department: '경영학과',
   year: 2,
   avatar: profileGirl1,
-  heartsReceived: 12,
-  heartsSent: 8,
+  seedsReceived: 8,
+  messagesSent: 12,
   complimentsReceived: 15
 };
 
 const mockCompliments: Compliment[] = [
-  { id: '1', text: '이 강의실의 패피는 너야!', count: 5, recentDate: '어제', emoji: '👑' },
-  { id: '2', text: '스타일이 완전 취저!', count: 3, recentDate: '2일 전', emoji: '🔥' },
-  { id: '3', text: '완전 친화력 갑!', count: 4, recentDate: '3일 전', emoji: '🌟' },
-  { id: '4', text: '센스가 정말 좋으시네요', count: 2, recentDate: '5일 전', emoji: '✨' },
-  { id: '5', text: '선배님 밥 사주세요!', count: 1, recentDate: '1주일 전', emoji: '🍚' },
+  { id: '1', text: '이 강의실의 패피는 너야', count: 5, recentDate: '어제', emoji: '👚' },
+  { id: '2', text: '페이커 뺨 칠 거 같음', count: 3, recentDate: '2일 전', emoji: '🎮' },
+  { id: '3', text: '과탑일 거 같아요', count: 4, recentDate: '3일 전', emoji: '💯' },
+  { id: '4', text: '혹시 3대 500?', count: 2, recentDate: '5일 전', emoji: '💪' },
+  { id: '5', text: '완전 친화력 갑!', count: 1, recentDate: '1주일 전', emoji: '🌟' },
 ];
 
 export function ProfilePage() {
@@ -53,14 +53,14 @@ export function ProfilePage() {
             
             <div className="flex space-x-6 justify-center">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary mb-1">💗</div>
-                <div className="text-2xl font-bold text-primary">{mockProfile.heartsReceived}</div>
-                <div className="text-xs text-muted-foreground">받은 하트</div>
+                <div className="text-3xl font-bold text-primary mb-1">🌱</div>
+                <div className="text-2xl font-bold text-primary">{mockProfile.seedsReceived}</div>
+                <div className="text-xs text-muted-foreground">받은 씨앗</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-secondary mb-1">💌</div>
-                <div className="text-2xl font-bold text-secondary">{mockProfile.heartsSent}</div>
-                <div className="text-xs text-muted-foreground">보낸 하트</div>
+                <div className="text-3xl font-bold text-secondary mb-1">📩</div>
+                <div className="text-2xl font-bold text-secondary">{mockProfile.messagesSent}</div>
+                <div className="text-xs text-muted-foreground">보낸 쪽지</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-accent mb-1">🎯</div>

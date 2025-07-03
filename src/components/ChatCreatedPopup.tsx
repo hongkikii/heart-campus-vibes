@@ -71,7 +71,7 @@ export function ChatCreatedPopup({
 
           {/* Title */}
           <DialogTitle className="text-2xl font-bold text-gradient">
-            🎊 축하해요! 🎊
+            🎊 새로운 연결! 🎊
           </DialogTitle>
 
           {/* User Info */}
@@ -85,16 +85,16 @@ export function ChatCreatedPopup({
                 <span className="text-primary">{userName}</span>님과
               </p>
               <p className="text-lg font-semibold">
-                채팅방이 생성되었어요! 💬
+                쪽지방이 생성되었어요! 📩
               </p>
               
               {isRealNameHeart ? (
                 <p className="text-sm text-muted-foreground bg-gradient-warm/10 px-3 py-2 rounded-full">
-                  ⏰ 24시간 동안 대화할 수 있어요
+                  📩 이제 자유롭게 쪽지를 주고받을 수 있어요
                 </p>
               ) : (
                 <p className="text-sm text-muted-foreground bg-gradient-warm/10 px-3 py-2 rounded-full">
-                  💕 서로 마음이 통했어요!
+                  🌱 서로 씨앗을 보냈어요!
                 </p>
               )}
             </div>
@@ -106,7 +106,7 @@ export function ChatCreatedPopup({
               onClick={() => onOpenChange(false)}
               className="bg-gradient-warm hover:shadow-card transition-all duration-300"
             >
-              💬 채팅 시작하기
+              📩 쪽지 확인하기
             </Button>
             <Button 
               variant="ghost" 

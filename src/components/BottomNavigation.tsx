@@ -7,8 +7,8 @@ interface BottomNavigationProps {
 }
 
 const tabs = [
-  { id: 'home', icon: '🏠', label: '홈' },
-  { id: 'chat', icon: '💬', label: '채팅' },
+  { id: 'home', icon: '🎓', label: '홈' },
+  { id: 'chat', icon: '📩', label: '쪽지함' },
   { id: 'profile', icon: '👤', label: '마이' },
 ];
 
